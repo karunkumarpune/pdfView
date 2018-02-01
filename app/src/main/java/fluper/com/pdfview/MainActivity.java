@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,8 +41,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+     /*   val webview = WebView(this)
+        setContentView(webview)
+        webview.settings.javaScriptEnabled = true
+        webview.loadUrl("http://www.adobe.com/devnet/acrobat/pdfs/pdf_open_parameters.pdf")
+    */
+
+
         pd = new ProgressDialog(MainActivity.this);
-        pd.setMessage("loading");
+        pd.setMessage("loading...");
         pd.setCancelable(false);
 
         list=new ArrayList<>();
@@ -109,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             fromFile(filePath);
-           // pd.show();
-
         }
     }
 
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fromFile(String path) {
-        //pd.show();
+        pd.show();
         itemData.clear();
         adapter.notifyDataSetChanged();
         File file = new File(path);
@@ -173,7 +181,12 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
+       new Handler().postDelayed(new Runnable() {
+           @Override
+           public void run() {
+               pd.dismiss();
+           }
+       },20000);
 
     }
 
